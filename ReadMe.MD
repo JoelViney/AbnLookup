@@ -9,6 +9,7 @@ The webservice is pretty flakey so there are are some guards to assure we get a 
 
 ### Technologies used:
 * .Net Standard 2.1
+* .Net Core 2.1
 * NLog
 * Microsoft.Extensions.Logging
 * MSTest
