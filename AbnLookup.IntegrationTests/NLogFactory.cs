@@ -15,28 +15,30 @@ namespace AbnLookup
         private static bool _loggerLoaded;
         private static readonly Object _thisLock = new Object();
 
-        // I am really not sure about this approach. I am begining to think that we should just use a singleton.
         public static ILogger<T> GetLogger<T>()
         {
-            // Threading is evil.
-            lock (_thisLock)
+            // Double Check Locking... Do not remove.
+            if (!_loggerLoaded)
             {
-                // Critical code section
-                if (!_loggerLoaded)
+                lock (_thisLock)
                 {
-                    _loggerFactory = new LoggerFactory();
+                    // Critical code section
+                    if (!_loggerLoaded)
+                    {
+                        _loggerFactory = new LoggerFactory();
 
-                    // Configure NLog
-                    _loggerFactory.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
+                        // Configure NLog
+                        _loggerFactory.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
 
-                    LogManager.LoadConfiguration("nlog.config");
+                        LogManager.LoadConfiguration("nlog.config");
+                    }
                 }
-
-                ILogger<T> logger = _loggerFactory.CreateLogger<T>();
-                _loggerLoaded = true;
-
-                return logger;
             }
+
+            ILogger<T> logger = _loggerFactory.CreateLogger<T>();
+            _loggerLoaded = true;
+
+            return logger;
         }
 
     }

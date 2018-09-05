@@ -12,6 +12,12 @@ The webservice is pretty flakey so there are are some guards to assure we get a 
 Their API also seems to change a bit so if something breaks it's not my fault. To be honest 
 I really need to add this to a nightly build CI platform with some sort of email wanrings. 
 
+##Technologies used:
+
+.Net Standard 2.1
+NLog
+Microsoft.Extensions.Logging
+MSTest
 
 ##References
 
